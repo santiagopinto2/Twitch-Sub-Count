@@ -1,0 +1,16 @@
+{
+  "name": "sub-count",
+  "version": "1.0.0",
+  "description": "Continuously fetches sub count and prints to a text file to display on the stream overlay",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Santiago Pinto",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "request": "^2.88.2"
+  }
+}
