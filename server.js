@@ -35,44 +35,19 @@ async function run(){
 
     while(true){
 
-        var end = false;
-        var lastAddition = 0;
-        var subCount = 0;
-        urlEnd = '';
+        getSubs(process.env.GET_SCOPE_TOKEN, (res) => {
 
-        while(!end){
-
-            await sleep(500);
-            getSubs(process.env.GET_SCOPE_TOKEN, (res) => {
-
-                lastAddition = JSON.parse(res.body).data.length;
-                subCount += JSON.parse(res.body).data.length;
-                console.log('Old: ' + end);
-                console.log('New: ' + subCount);
-                if(JSON.parse(res.body).pagination.cursor == null){
-                    console.log('END');
-                    end = true;
-                    return subCount;
+            subCount = JSON.parse(res.body).total;
+            fs.writeFile('subgoal.txt', 'Sub Goal! ' + subCount + '/' + (subCount + 1), function (err){
+                if(err){
+                    return console.log(err);
                 }
-                console.log(JSON.parse(res.body));
-                urlEnd = JSON.parse(res.body).pagination.cursor;
-                console.log('Test Sub Count = ' + subCount);
-                return subCount;
-
-            })
+                console.log('Updated, Sub Count = ' + subCount);
+            });
             
-        }
+        })
 
-        subCount -= lastAddition;
-        subCount -= 1;
-        fs.writeFile('subgoal.txt', 'Sub Goal! ' + subCount + '/' + (subCount + 1), function (err){
-            if(err){
-                return console.log(err);
-            }
-            console.log('Updated, Sub Count = ' + subCount);
-        });
-
-        await sleep(20000);
+        await sleep(1000);
 
     }
 
